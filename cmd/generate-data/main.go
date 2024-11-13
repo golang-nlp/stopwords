@@ -10,6 +10,7 @@ import (
 	"github.com/dave/jennifer/jen"
 )
 
+// nolint:forbidigo
 func main() {
 	src := os.Args[1]
 
@@ -60,7 +61,7 @@ func main() {
 func readWords(file string) ([]string, error) {
 	f, err := os.Open(file)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to open file: %w", err)
 	}
 	defer f.Close()
 
@@ -81,7 +82,7 @@ func readWords(file string) ([]string, error) {
 		exists[word] = struct{}{}
 	}
 
-	return words, scanner.Err()
+	return words, scanner.Err() // nolint:wrapcheck
 }
 
 func generateLangFile(lang string, words []string) (*jen.File, error) {

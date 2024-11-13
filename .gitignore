@@ -1,1 +1,9 @@
+.DS_Store
+*.out
+
+.vscode/
+vendor/
+coverage/
 build/
+
+*.swp
