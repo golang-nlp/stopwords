@@ -20,6 +20,7 @@ func TestIsStopWord(t *testing.T) {
 		{"fr", "Voiture", false},
 		{"bad", "bad", false},
 		{"en", "the", true},
+		{"en", "car", false},
 	}
 
 	for _, tc := range tt {
