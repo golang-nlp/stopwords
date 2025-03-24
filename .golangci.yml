@@ -1,95 +1,104 @@
-run:
-  concurrency: 4
-  timeout: 1m
-  issues-exit-code: 1
-  tests: false
-
-output:
-  formats:
-    - format: colored-line-number
-  print-issued-lines: true
-  print-linter-name: true
-
-issues:
-  exclude-use-default: true
-  exclude-case-sensitive: false
-  exclude-dirs-use-default: true
-  max-issues-per-linter: 50
-  exclude-generated: strict
-  exclude-files:
-    - .*_mock\.go
-    - mock_.*\.go
-    - .*/pkg/mod/.*$
-    - .*/go/src/.*\.go
-
-linters-settings:
-  errcheck:
-    check-type-assertions: false
-    check-blank: false
-  govet:
-    disable:
-      - shadow
-  revive:
-    ignore-generated-header: true
-    severity: warning
-  gofmt:
-    simplify: true
-  gocyclo:
-    min-complexity: 18
-  dupl:
-    threshold: 99
-  goconst:
-    min-len: 3
-    min-occurrences: 2
-  depguard:
-    rules:
-      main:
-        allow:
-          - $all
-
-  misspell:
-    locale: US
-    ignore-words:
-      - cancelled
-  goimports:
-    local-prefixes: go.opentelemetry.io
-
-
-linters:
-  disable-all: true
+formatters:
   enable:
-    - errcheck
-    - goconst
-    - gocyclo
     - gofmt
-    - revive
-    - govet
-    - ineffassign
-    - misspell
-    - typecheck
-    - unconvert
-    - gosimple
-    - staticcheck
-    - unused
+  exclusions:
+    paths:
+      - .*_mock\.go
+      - mock_.*\.go
+      - .*/pkg/mod/.*$
+      - .*/go/src/.*\.go
+      - third_party$
+      - builtin$
+      - examples$
+  settings:
+    gofmt:
+      simplify: true
+    goimports:
+      local-prefixes:
+        - go.opentelemetry.io
+issues:
+  max-issues-per-linter: 50
+linters:
+  default: none
+  enable:
     - asciicheck
     - bodyclose
     - dogsled
     - durationcheck
+    - errcheck
     - errorlint
     - exhaustive
     - forbidigo
     - forcetypeassert
+    - goconst
     - gocritic
+    - gocyclo
     - godot
     - gosec
+    - govet
+    - ineffassign
+    - misspell
     - nestif
     - nilerr
     - nlreturn
     - noctx
     - prealloc
     - predeclared
+    - revive
     - sqlclosecheck
+    - staticcheck
+    - unconvert
+    - unused
     - whitespace
     - wrapcheck
     - wsl
-  fast: false
+  exclusions:
+    paths:
+      - .*_mock\.go
+      - mock_.*\.go
+      - .*/pkg/mod/.*$
+      - .*/go/src/.*\.go
+      - third_party$
+      - builtin$
+      - examples$
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+  settings:
+    depguard:
+      rules:
+        main:
+          allow:
+            - $all
+    dupl:
+      threshold: 99
+    errcheck:
+      check-blank: false
+      check-type-assertions: false
+    goconst:
+      min-len: 3
+      min-occurrences: 2
+    gocyclo:
+      min-complexity: 18
+    govet:
+      disable:
+        - shadow
+    misspell:
+      ignore-rules:
+        - cancelled
+      locale: US
+    revive:
+      severity: warning
+output:
+  formats:
+    text:
+      path: stdout
+      print-issued-lines: true
+      print-linter-name: true
+run:
+  concurrency: 4
+  issues-exit-code: 1
+  tests: false
+version: "2"
